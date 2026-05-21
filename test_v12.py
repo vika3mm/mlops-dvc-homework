@@ -17,11 +17,15 @@ class ImageDataset(Dataset):
         self.data = pd.read_csv(csv_file)
         self.root_dir = Path(root_dir)
         self.transform = transform
-        # Fix for Test_1: replace train_data with test_data
-        if 'test_data' in str(self.root_dir):
+        
+        
+        if (self.root_dir / 'test_data').exists():
             self.data['file_name'] = self.data['file_name'].str.replace('train_data/', 'test_data/')
+            print(f"Fixed paths for {root_dir}")
+    
     def __len__(self):
         return len(self.data)
+    
     def __getitem__(self, idx):
         img_path = self.root_dir / self.data.iloc[idx]['file_name']
         image = Image.open(img_path).convert('RGB')
@@ -63,26 +67,26 @@ def evaluate_model(model_path, test_loader, model_name):
 
 # Test_1
 test1_dataset = ImageDataset(
-    csv_file='/data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_1/test.csv',
-    root_dir='/data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_1',
+    csv_file='ai-vs-human-generated-dataset-hw/Test_1/test.csv',
+    root_dir='ai-vs-human-generated-dataset-hw/Test_1',
     transform=test_transform
 )
 test1_loader = DataLoader(test1_dataset, batch_size=32, shuffle=False, num_workers=4)
 
 # Test_2
 test2_dataset = ImageDataset(
-    csv_file='/data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_2/test.csv',
-    root_dir='/data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_2',
+    csv_file='ai-vs-human-generated-dataset-hw/Test_2/test.csv',
+    root_dir='ai-vs-human-generated-dataset-hw/Test_2',
     transform=test_transform
 )
 test2_loader = DataLoader(test2_dataset, batch_size=32, shuffle=False, num_workers=4)
 
-# Оценка
 results = {}
 results['v1_on_test1'] = evaluate_model('model_v1.pth', test1_loader, 'V1 on Test_1')
 results['v1_on_test2'] = evaluate_model('model_v1.pth', test2_loader, 'V1 on Test_2')
 results['v2_on_test2'] = evaluate_model('model_v2.pth', test2_loader, 'V2 on Test_2')
 
-# Сохраняем результаты
 with open('test_results.json', 'w') as f:
     json.dump(results, f, indent=2)
+
+print("Results saved to test_results.json")

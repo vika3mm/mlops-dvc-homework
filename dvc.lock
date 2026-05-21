@@ -1,0 +1,66 @@
+schema: '2.0'
+stages:
+  train_v1:
+    cmd: python3 train_v1.py
+    deps:
+    - path: /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Train_1
+      hash: md5
+      md5: be4fba47d09ac1e4ff93610c7ce22370.dir
+      size: 577186450
+      nfiles: 9994
+    outs:
+    - path: metrics_v1.json
+      hash: md5
+      md5: c8430f68710cc7714900975893560809
+      size: 100
+    - path: model_v1.pth
+      hash: md5
+      md5: b2f045498bbb27204266a6ea557a79bf
+      size: 44789116
+  train_v2:
+    cmd: python3 train_v2.py
+    deps:
+    - path: /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Train_2
+      hash: md5
+      md5: cd8edb58d893e35241fdf8fbf6049229.dir
+      size: 229344118
+      nfiles: 3998
+    - path: model_v1.pth
+      hash: md5
+      md5: b2f045498bbb27204266a6ea557a79bf
+      size: 44789116
+    outs:
+    - path: metrics_v2.json
+      hash: md5
+      md5: aee62810a0929565de8aab96d8d00813
+      size: 98
+    - path: model_v2.pth
+      hash: md5
+      md5: f3779cce567bde9fe16ef83bc86e81da
+      size: 44789116
+  test_all:
+    cmd: python3 test_v12.py
+    deps:
+    - path: /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_1
+      hash: md5
+      md5: 62c3780e5c19bc53638a42e202acda77.dir
+      size: 229951307
+      nfiles: 3998
+    - path: /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_2
+      hash: md5
+      md5: be5492c21e2dec84056e1599a807ccd1.dir
+      size: 114391042
+      nfiles: 2001
+    - path: model_v1.pth
+      hash: md5
+      md5: b2f045498bbb27204266a6ea557a79bf
+      size: 44789116
+    - path: model_v2.pth
+      hash: md5
+      md5: f3779cce567bde9fe16ef83bc86e81da
+      size: 44789116
+    outs:
+    - path: test_results.json
+      hash: md5
+      md5: de67b50d68821cb9578f1cc1eddbb2d1
+      size: 434

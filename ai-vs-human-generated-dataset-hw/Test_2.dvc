@@ -1,0 +1,6 @@
+outs:
+- md5: be5492c21e2dec84056e1599a807ccd1.dir
+  size: 114391042
+  nfiles: 2001
+  hash: md5
+  path: Test_2

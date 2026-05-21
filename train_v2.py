@@ -37,8 +37,8 @@ train_transform = transforms.Compose([
 ])
 
 train_dataset = ImageDataset(
-    csv_file='/data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Train_2/train.csv',
-    root_dir='/data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Train_2',
+    csv_file='ai-vs-human-generated-dataset-hw/Train_2/train.csv',
+    root_dir='ai-vs-human-generated-dataset-hw/Train_2',
     transform=train_transform
 )
 
