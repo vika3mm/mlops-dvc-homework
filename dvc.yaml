@@ -1,0 +1,29 @@
+stages:
+  train_v1:
+    cmd: python3 train_v1.py
+    deps:
+      - /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Train_1
+    outs:
+      - model_v1.pth
+    metrics:
+      - metrics_v1.json
+  
+  train_v2:
+    cmd: python3 train_v2.py
+    deps:
+      - /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Train_2
+      - model_v1.pth
+    outs:
+      - model_v2.pth
+    metrics:
+      - metrics_v2.json
+  
+  test_all:
+    cmd: python3 test_v12.py
+    deps:
+      - model_v1.pth
+      - model_v2.pth
+      - /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_1
+      - /data/shared_ml/vmoskalenko/ai-vs-human-generated-dataset-hw/Test_2
+    metrics:
+      - test_results.json
